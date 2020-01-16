@@ -26,6 +26,15 @@
                 "description": "Gallery image SKU."
             }
         },
+        "overrideImageURN": {
+            "type": "string",
+            "metadata": {
+                "description": "This string contains a URN identifying a gallery image to override the ones defined here."
+                // See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/cli-ps-findimage for description
+                // Example value: "MicrosoftWindowsDesktop:office-365:19h2-evd-o365pp:latest"
+            },
+            "defaultValue": ""
+        },
         "rdshPrefix": {
             "type": "string",
             "metadata": {
@@ -141,6 +150,10 @@
                 "gallerySku": "2016-Datacenter"
             }
         },
+        "imagePublisher": "[if(not(empty(parameters('overrideImageURN'))), string(first(split(parameters('overrideImageURN'), ':'))), variables('galleryimage')[parameters('rdshGalleryImageSKU')].galleryPublisher)]",
+        "imageOffer": "[if(not(empty(parameters('overrideImageURN'))), string(first(skip(split(parameters('overrideImageURN'), ':'), 1))), variables('galleryImage')[parameters('rdshGalleryImageSKU')].galleryOffer)]",
+        "imageSKU": "[if(not(empty(parameters('overrideImageURN'))), string(first(skip(split(parameters('overrideImageURN'), ':'), 2))), variables('galleryImage')[parameters('rdshGalleryImageSKU')].gallerySku)]",
+        "imageVersion": "[if(not(empty(parameters('overrideImageURN'))), string(first(skip(split(parameters('overrideImageURN'), ':'), 3))), 'latest')]",
         "storageAccountType": "[parameters('rdshVMDiskType')]",
         "availabilitySetId": {
             "id": "[if(equals(parameters('enablePersistentDesktop'),bool('False')),resourceId('Microsoft.Compute/availabilitySets/', concat(parameters('rdshPrefix'), 'availabilitySet')),json('null'))]"
@@ -195,10 +208,16 @@
                 },
                 "storageProfile": {
                     "imageReference": {
+/*
                         "publisher": "[variables('galleryimage')[parameters('rdshGalleryImageSKU')].galleryPublisher]",
                         "offer": "[variables('galleryImage')[parameters('rdshGalleryImageSKU')].galleryOffer]",
                         "sku": "[variables('galleryImage')[parameters('rdshGalleryImageSKU')].gallerySku]",
                         "version": "latest"
+*/
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('imageSKU')]",
+                        "version": "[variables('imageVersion')]"
                     },
                     "osDisk": {
                         "createOption": "FromImage",

@@ -48,6 +48,15 @@
             ],
             "defaultValue": "Windows-10-Enterprise-multi-session-with-Office-365-ProPlus"
         },
+        "OverrideImageURN": {
+            "type": "string",
+            "metadata": {
+                "description": "This string contains a URN identifying a gallery image to override the ones defined here."
+                // See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/cli-ps-findimage for description
+                // Example value: "MicrosoftWindowsDesktop:office-365:19h2-evd-o365pp:latest"
+            },
+            "defaultValue": ""
+        },
         "rdshCustomImageSourceName": {
             "type": "string",
             "defaultValue": "",
@@ -316,6 +325,9 @@
                     },
                     "rdshGalleryImageSKU": {
                         "value": "[parameters('rdshGalleryImageSKU')]"
+                    },
+                    "overrideImageURN": {
+                        "value": "[parameters('overrideImageURN')]"
                     },
                     "rdshPrefix": {
                         "value": "[variables('rdshPrefix')]"

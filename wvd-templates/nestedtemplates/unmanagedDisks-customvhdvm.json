@@ -20,6 +20,13 @@
                 "description": "Gallery image SKU."
             }
         },
+        "overrideImageURN": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Used to override the standard Gallery image SKU."
+            }
+        },
         "rdshPrefix": {
             "type": "string",
             "metadata": {
