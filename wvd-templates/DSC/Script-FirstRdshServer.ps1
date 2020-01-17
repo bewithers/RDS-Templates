@@ -93,7 +93,7 @@ else
     # Authenticating to Windows Virtual Desktop
     if ($isServicePrincipal -eq "True")
     {
-        Write-Log  -Message "Authenticating using service principal $TenantAdminCredentials.username and Tenant id: $AadTenantId "
+        Write-Log  -Message "Authenticating using service principal $($TenantAdminCredentials.username) and Tenant id: $AadTenantId "
         $authentication = Add-RdsAccount -DeploymentUrl $RDBrokerURL -Credential $TenantAdminCredentials -ServicePrincipal -TenantId $AadTenantId 
     }
     else
