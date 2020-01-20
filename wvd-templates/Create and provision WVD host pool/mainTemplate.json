@@ -401,6 +401,25 @@
             }
         },
         {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "name": "[concat(variables('rdshPrefix'), copyindex(), '/BGInfo')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('vmCreation-linkedTemplate_name')]"
+            ],
+            "copy": {
+                "name": "rdsh-bginfo-loop",
+                "count": "[parameters('rdshNumberOfInstances')]"
+            },
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Compute",
+                "type": "BGInfo",
+                "typeHandlerVersion": "2.1"
+            }
+        },
+        {
             "apiVersion": "2018-10-01",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(variables('rdshPrefix'), '0/', 'dscextension')]",
