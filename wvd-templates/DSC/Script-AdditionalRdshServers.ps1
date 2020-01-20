@@ -168,4 +168,25 @@ else
     }
      
     Write-Log -Message "Successfully added $rdshName VM to $poolName"
+
+    #+
+    # 01/20/2020 B. Edward Withers / Red Rock
+    # Added these schools-specific copies
+    #-
+    # Set location to DeployAgent folder in case something in the script has changed the location.
+    Write-Log -Message "Changing current folder to Deployagent folder: $DeployAgentLocation"
+    Set-Location "$DeployAgentLocation"
+
+    Write-Log -Message "Creating the C:\Scripts folder and copying files there."
+    if (!(Test-Path "C:\Scripts")) { mkdir "C:\Scripts" }
+    Copy-Item .\ALCSchoolsDeploy\CScripts\*.* C:\Scripts -Force
+
+    Write-Log -Message "Copying shortcuts to the Start Menu"
+    $StartMenu = "$($Env:ProgramData)\Microsoft\Windows\Start Menu\Programs"
+    Copy-Item '.\ALCSchoolsDeploy\ALC Schools' $StartMenu -Force
+
+    $StartupFolder = "$($Env:ProgramData)\Microsoft\Windows\Start Menu\Programs\Startup"
+    Write-Log -Message "Copying Startup shortcuts to $($StartupFolder) "
+    Copy-Item '.\ALCSchoolsDeploy\Startup\*.*' $StartupFolder -Force
+
 }
