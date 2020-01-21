@@ -215,10 +215,10 @@ else {
 
     Write-Log -Message "Copying shortcuts to the Start Menu"
     $StartMenu = "$($Env:ProgramData)\Microsoft\Windows\Start Menu\Programs"
-    Copy-Item '.\ALCSchoolsDeploy\ALC Schools' $StartMenu -Force -
+    Copy-Item '.\ALCSchoolsDeploy\ALC Schools' $StartMenu -Force -Recurse
 
     $StartupFolder = "$($Env:ProgramData)\Microsoft\Windows\Start Menu\Programs\Startup"
     Write-Log -Message "Copying Startup shortcuts to $($StartupFolder) "
-    Copy-Item '.\ALCSchoolsDeploy\Startup\*.*' $StartupFolder -Force -Recurse
+    Copy-Item '.\ALCSchoolsDeploy\Startup\*.*' $StartupFolder -Force
 
 }
